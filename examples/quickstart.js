@@ -3,13 +3,17 @@
 // Quickstart example
 // See https://wit.ai/l5t/Quickstart
 
-// When not cloning the `node-wit` repo, replace the `require` like so:
-// const Wit = require('node-wit').Wit;
-const Wit = require('../').Wit;
+let Wit = null;
+try {
+  // if running from repo
+  Wit = require('../').Wit;
+} catch (e) {
+  Wit = require('node-wit').Wit;
+}
 
-const token = (() => {
+const accessToken = (() => {
   if (process.argv.length !== 3) {
-    console.log('usage: node examples/quickstart.js <wit-token>');
+    console.log('usage: node examples/quickstart.js <wit-access-token>');
     process.exit(1);
   }
   return process.argv[2];
@@ -28,28 +32,27 @@ const firstEntityValue = (entities, entity) => {
 };
 
 const actions = {
-  say(sessionId, context, message, cb) {
-    console.log(message);
-    cb();
+  send(request, response) {
+    console.log('sending...', JSON.stringify(response));
+    return Promise.resolve();
   },
-  merge(sessionId, context, entities, message, cb) {
+  merge({context, entities}) {
     // Retrieve the location entity and store it into a context field
     const loc = firstEntityValue(entities, 'location');
     if (loc) {
       context.loc = loc;
     }
-    cb(context);
+    return Promise.resolve(context);
   },
-  error(sessionId, context, error) {
-    console.log(error.message);
-  },
-  ['fetch-weather'](sessionId, context, cb) {
-    // Here should go the api call, e.g.:
-    // context.forecast = apiCall(context.loc)
-    context.forecast = 'sunny';
-    cb(context);
+  ['fetch-weather']({context}) {
+    return new Promise(function(resolve, reject) {
+      // Here should go the api call, e.g.:
+      // context.forecast = apiCall(context.loc)
+      context.forecast = 'sunny';
+      return resolve(context);
+    });
   },
 };
 
-const client = new Wit(token, actions);
+const client = new Wit({accessToken, actions});
 client.interactive();

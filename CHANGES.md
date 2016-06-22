@@ -1,4 +1,15 @@
-- INFO level as an alias for LOG
+## v4.0.0
+
+See ./examples to see how to use the new API.
+
+### breaking
+
+- `say` renamed to `send` to reflect that it deals with more than just text
+- Removed built-in actions `merge` and `error`
+- Actions signature simplified with `request` and `response` arguments
+- Actions need to return promises and do not receive the `cb` parameter anymore
+- INFO level replaces LOG level
+- configuration is now done when instantiating the `Wit` object, instead of using env vars
 
 ## v3.3.2
 
