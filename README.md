@@ -128,8 +128,7 @@ client.runActions(sessionId, 'what is the weather in London?', context0)
 })
 .catch((e) => {
   console.log('Oops! Got an error: ' + e);
-})
-;
+});
 ```
 
 See `./examples/messenger.js` for a full-fledged example
