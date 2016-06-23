@@ -36,7 +36,7 @@ The Wit module provides a Wit class with the following methods:
 
 The Wit constructor takes the following parameters:
 * `accessToken` - the access token of your Wit instance
-* `actions` - the object with your actions
+* `actions` - (optional if only using `.message()`) the object with your actions
 * `logger` - (optional) the object handling the logging.
 * `apiVersion` - (optional) the API version to use instead of the recommended one
 
@@ -95,6 +95,7 @@ Takes the following parameters:
 
 Example:
 ```js
+const client = new Wit({accessToken: 'MY_TOKEN'});
 client.message('what is the weather in London?', {})
 .then((data) => {
   console.log('Yay, got Wit.ai response: ' + JSON.stringify(data));
@@ -113,24 +114,25 @@ Takes the following parameters:
 * `maxSteps` - (optional) the maximum number of actions to execute (defaults to 5)
 
 Example:
+
 ```js
-const session = 'my-user-session-42';
+const sessionId = 'my-user-session-42';
 const context0 = {};
-client.runActions(session, 'what is the weather in London?', context0, (e, context1) => {
-  if (e) {
-    console.log('Oops! Got an error: ' + e);
-    return;
-  }
+client.runActions(sessionId, 'what is the weather in London?', context0)
+.then((context1) => {
   console.log('The session state is now: ' + JSON.stringify(context1));
-  client.runActions(session, 'and in Brussels?', context1, (e, context2) => {
-    if (e) {
-      console.log('Oops! Got an error: ' + e);
-      return;
-    }
-    console.log('The session state is now: ' + JSON.stringify(context2));
-  });
-});
+  return client.runActions(sessionId, 'and in Brussels?', context1);
+})
+.then((context2) => {
+  console.log('The session state is now: ' + JSON.stringify(context2));
+})
+.catch((e) => {
+  console.log('Oops! Got an error: ' + e);
+})
+;
 ```
+
+See `./examples/messenger.js` for a full-fledged example
 
 ### converse
 
