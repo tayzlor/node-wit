@@ -1,8 +1,5 @@
 'use strict';
 
-// Joke example
-// See https://wit.ai/patapizza/example-joke
-
 let Wit = null;
 try {
   // if running from repo
@@ -18,6 +15,9 @@ const accessToken = (() => {
   }
   return process.argv[2];
 })();
+
+// Joke example
+// See https://wit.ai/patapizza/example-joke
 
 const allJokes = {
   chuck: [

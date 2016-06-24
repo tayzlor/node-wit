@@ -1,8 +1,5 @@
 'use strict';
 
-// Quickstart example
-// See https://wit.ai/l5t/Quickstart
-
 let Wit = null;
 try {
   // if running from repo
@@ -18,6 +15,9 @@ const accessToken = (() => {
   }
   return process.argv[2];
 })();
+
+// Quickstart example
+// See https://wit.ai/l5t/Quickstart
 
 const firstEntityValue = (entities, entity) => {
   const val = entities && entities[entity] &&
