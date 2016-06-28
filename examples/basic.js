@@ -26,9 +26,6 @@ const actions = {
       return resolve();
     });
   },
-  merge({context}) {
-    return Promise.resolve(context);
-  }
 };
 
 const client = new Wit({accessToken, actions});

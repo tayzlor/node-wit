@@ -128,12 +128,6 @@ const actions = {
       return Promise.resolve()
     }
   },
-  merge({text, entities, context}) {
-    console.log('merging', text, entities);
-    return new Promise(function(resolve, reject) {
-      return resolve(context);
-    });
-  },
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
 };

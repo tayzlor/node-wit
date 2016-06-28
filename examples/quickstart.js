@@ -17,7 +17,7 @@ const accessToken = (() => {
 })();
 
 // Quickstart example
-// See https://wit.ai/l5t/Quickstart
+// See https://wit.ai/ar7hur/quickstart
 
 const firstEntityValue = (entities, entity) => {
   const val = entities && entities[entity] &&
@@ -33,22 +33,22 @@ const firstEntityValue = (entities, entity) => {
 
 const actions = {
   send(request, response) {
-    console.log('sending...', JSON.stringify(response));
-    return Promise.resolve();
-  },
-  merge({context, entities}) {
-    // Retrieve the location entity and store it into a context field
-    const loc = firstEntityValue(entities, 'location');
-    if (loc) {
-      context.loc = loc;
-    }
-    return Promise.resolve(context);
-  },
-  ['fetch-weather']({context}) {
+    const {sessionId, context, entities} = request;
+    const {text, quickreplies} = response;
     return new Promise(function(resolve, reject) {
-      // Here should go the api call, e.g.:
-      // context.forecast = apiCall(context.loc)
-      context.forecast = 'sunny';
+      console.log('sending...', JSON.stringify(response));
+      return resolve();
+    });
+  },
+  getForecast({context, entities}) {
+    return new Promise(function(resolve, reject) {
+      var location = firstEntityValue(entities, 'location')
+      if (location) {
+        context.forecast = 'sunny in ' + location; // we should call a weather API here
+      } else {
+        context.missingLocation = true;
+        delete context.forecast;
+      }
       return resolve(context);
     });
   },

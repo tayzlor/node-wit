@@ -15,6 +15,9 @@ npm install --save node-wit
 Run in your terminal:
 
 ```bash
+# Node.js <= 6.x.x, add the flag --harmony_destructuring
+node --harmony_destructuring examples/basic.js <MY_TOKEN>
+# Node.js >= v6.x.x
 node examples/basic.js <MY_TOKEN>
 ```
 
